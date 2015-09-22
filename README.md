@@ -5,21 +5,21 @@ in EdgeRouter firewall rules.
 
 
 ### Quick Start
-To get started, perform these steps on your EdgeRouter from a CLI configure prompt:
-1. ```set firewall group network-group Nets4-BlackList description 'Blacklisted IPv4 Sources'```
-2. ```cp updBlackList.sh /config/scripts/updBlackList.sh```
-3. ```cp fw-BlackList-URLs.txt /config/user-data/fw-BlackList-URLs.txt```
-4. ```cp loadBlackList.sh /cofnig/scripts/post-config.d/loadBlackList.sh```
-5. ```set system task-scheduler task Update-Blacklists executable path /config/scripts/updBlackList.sh```
-6. ```set system task-scheduler task Update-Blacklists interval 12h```
-7. ```/config/scripts/updBlackList.sh```
+To get started, perform these steps on your EdgeRouter from a CLI configure prompt:  
+1. ```set firewall group network-group Nets4-BlackList description 'Blacklisted IPv4 Sources'```  
+2. ```cp updBlackList.sh /config/scripts/updBlackList.sh```  
+3. ```cp fw-BlackList-URLs.txt /config/user-data/fw-BlackList-URLs.txt```  
+4. ```cp loadBlackList.sh /cofnig/scripts/post-config.d/loadBlackList.sh```  
+5. ```set system task-scheduler task Update-Blacklists executable path /config/scripts/updBlackList.sh```  
+6. ```set system task-scheduler task Update-Blacklists interval 12h```  
+7. ```/config/scripts/updBlackList.sh```  
 
 You will also need to create a firewall rule to deny inbound source addresses
 that match this network-group ```Nets4-BlackList```.  An example using
-a zone-based firewall might look like:
-1. ```set firewall name wan-dmz-4 rule 1 source group network-group Nets4-BlackList```
-2. ```set firewall name wan-lan-4 rule 1 source group network-group Nets4-BlackList```
-3. ```set firewall name wan-self-4 rule 1 source group network-group Nets4-BlackList```
+a zone-based firewall might look like:  
+1. ```set firewall name wan-dmz-4 rule 1 source group network-group Nets4-BlackList```  
+2. ```set firewall name wan-lan-4 rule 1 source group network-group Nets4-BlackList```  
+3. ```set firewall name wan-self-4 rule 1 source group network-group Nets4-BlackList```  
 
 That should get you going with minimal effort.  However, you really should
 revew ```fw-BlackList-URLs.txt``` and edit as appropriate.  The two scripts
