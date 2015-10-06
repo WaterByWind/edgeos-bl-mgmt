@@ -10,10 +10,13 @@
 #-----------------------------------------------------------
 #
 # OpenBL.org default (90-day) list, US source
-http://www.us.openbl.org/lists/base.txt
+http://www.openbl.org/lists/base_all.txt
 #
 # Emerging Threats consolidated/full list
 http://rules.emergingthreats.net/fwrules/emerging-Block-IPs.txt
+#
+# Emerging Threats Known Hostile Hosts
+http://rules.emergingthreats.net/blockrules/compromised-ips.txt
 #
 # SpamHaus DROP (Don't Route or Peer)
 http://www.spamhaus.org/drop/drop.txt
@@ -29,7 +32,7 @@ http://lists.blocklist.de/lists/all.txt
 https://raw.githubusercontent.com/ktsaou/blocklist-ipsets/master/firehol_level1.netset
 #
 # PGL.YOYO AdServer list
-#http://pgl.yoyo.org/as/iplist.php
+http://pgl.yoyo.org/as/iplist.php
 #
 # OKEAH Korea IP Blocks
 #http://www.okean.com/sinokoreacidr.txt
@@ -38,22 +41,38 @@ https://raw.githubusercontent.com/ktsaou/blocklist-ipsets/master/firehol_level1.
 #http://www.okean.com/chinacidr.txt
 #
 # MyIP.ms Blacklist
-#http://www.myip.ms/files/blacklist/general/latest_blacklist.txt
+http://www.myip.ms/files/blacklist/general/latest_blacklist.txt
 #
 # StopForumSpam
-#http://www.stopforumspam.com/downloads/toxic_ip_cidr.txt
+http://www.stopforumspam.com/downloads/toxic_ip_cidr.txt
 #
 # AutoShun
-#http://www.autoshun.org/files/shunlist.csv
+http://www.autoshun.org/files/shunlist.csv
 #
 # CI Army List
-#http://cinsscore.com/list/ci-badguys.txt
+http://cinsscore.com/list/ci-badguys.txt
 #
 # Daniel Gerzo's BruteForceBlocker
-#http://danger.rulez.sk/projects/bruteforceblocker/blist.php
+http://danger.rulez.sk/projects/bruteforceblocker/blist.php
 #
-# MalC0de malware Blacklist
-#http://malc0de.com/bl/IP_Blacklist.txt
+# MalCode Blacklist
+http://malc0de.com/bl/IP_Blacklist.txt
 #
-#-----------------------------------------------------------
+# SSH Blacklist
+http://www.nothink.org/blacklist/blacklist_ssh_day.txt
+#
+# Bogon Networks Blacklist
+http://www.team-cymru.org/Services/Bogons/fullbogons-ipv4.txt
+#
+# Zeus Botnet Blacklist
+https://zeustracker.abuse.ch/blocklist.php?download=badips
+#
+# Palevo Blocklist
+https://palevotracker.abuse.ch/blocklists.php?download=ipblocklist
+#
+# Feodo Blocklist
+https://feodotracker.abuse.ch/blocklist/?download=ipblocklist
+#
+#
 
+#-----------------------------------------------------------
