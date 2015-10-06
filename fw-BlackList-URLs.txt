@@ -52,6 +52,8 @@ https://raw.githubusercontent.com/ktsaou/blocklist-ipsets/master/firehol_level1.
 # Daniel Gerzo's BruteForceBlocker
 #http://danger.rulez.sk/projects/bruteforceblocker/blist.php
 #
+# MalC0de malware Blacklist
+#http://malc0de.com/bl/IP_Blacklist.txt
 #
 #-----------------------------------------------------------
 

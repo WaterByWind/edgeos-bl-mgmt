@@ -3,6 +3,9 @@
 #------------------------------------------------------------------------------
 # Automated Blacklist management for Ubiquiti EdgeRouters
 #
+# 05 Oct 2015: v 1.1.1
+#	- Fix for additional comment (//) delineator in some blacklists
+#
 # 21 Sept 2015:  v 1.1
 #	- Move list of blacklist URLs to separate file
 #	- Check for failed retreival (curl error)
@@ -396,6 +399,7 @@ doProcess()
 		sed -e '/^#/d' \
 			-e '/[:\::]/d' \
 			-e 's/ .*//g' \
+			-e 's#//.*##g' \
 			-e 's/[^0-9,.,/]*//g' \
   			-e '/^$/d' > ${fnTemp1}
 	# Sort and remove duplicates
