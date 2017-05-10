@@ -1,35 +1,44 @@
 #
-# URL list of blacklist files
+#
+#-----------------------------------------------------------
+#
+# URL list of blocklist files
 #   One URL per line
 #   Blank lines OK
-#   Hash (#) begins comment 
+#   Hash (#) begins comment
 #
 # For use with updBlackList.sh
 # Place this file in /config/user-data
 #
 #-----------------------------------------------------------
 #
-# OpenBL.org default (90-day) list, US source
-http://www.us.openbl.org/lists/base.txt
+# Team Cymru bogons lists
+#  Also see http://www.team-cymru.org/bogon-reference.html
+https://www.team-cymru.org/Services/Bogons/fullbogons-ipv4.txt
+https://www.team-cymru.org/Services/Bogons/fullbogons-ipv6.txt
 #
 # Emerging Threats consolidated/full list
-http://rules.emergingthreats.net/fwrules/emerging-Block-IPs.txt
+https://rules.emergingthreats.net/fwrules/emerging-Block-IPs.txt
 #
 # SpamHaus DROP (Don't Route or Peer)
-http://www.spamhaus.org/drop/drop.txt
+#  Also see https://www.spamhaus.org/drop/
+https://www.spamhaus.org/drop/drop.txt
+https://www.spamhaus.org/drop/dropv6.txt
 #
 # SpamHaus Extended DROP (Extended Don't Route or Peer)
-http://www.spamhaus.org/drop/edrop.txt
+#  Also see https://www.spamhaus.org/drop/
+https://www.spamhaus.org/drop/edrop.txt
 #
 # BlockList.de complete
-http://lists.blocklist.de/lists/all.txt
+#  Also see http://www.blocklist.de/en/index.html
+https://lists.blocklist.de/lists/all.txt
 #
 # FireHOL Level1
-# Also see http://iplists.firehol.org
+#  Also see http://iplists.firehol.org
 https://raw.githubusercontent.com/ktsaou/blocklist-ipsets/master/firehol_level1.netset
 #
-# PGL.YOYO AdServer list
-#http://pgl.yoyo.org/as/iplist.php
+# PGL.YOYO AdServer list (Broken:  Do not use)
+#http://pgl.yoyo.org/as/iplist.php?format=&showintro=0
 #
 # OKEAH Korea IP Blocks
 #http://www.okean.com/sinokoreacidr.txt
@@ -41,19 +50,44 @@ https://raw.githubusercontent.com/ktsaou/blocklist-ipsets/master/firehol_level1.
 #http://www.myip.ms/files/blacklist/general/latest_blacklist.txt
 #
 # StopForumSpam
-#http://www.stopforumspam.com/downloads/toxic_ip_cidr.txt
+#  Also see https://www.stopforumspam.com/downloads
+#https://www.stopforumspam.com/downloads/toxic_ip_cidr.txt
 #
 # AutoShun
+#  Requires registration:  https://www.autoshun.org/register/
 #http://www.autoshun.org/files/shunlist.csv
 #
 # CI Army List
+#  Also see http://cinsscore.com/#list
 #http://cinsscore.com/list/ci-badguys.txt
 #
 # Daniel Gerzo's BruteForceBlocker
+#  Also see http://danger.rulez.sk/index.php/bruteforceblocker/
 #http://danger.rulez.sk/projects/bruteforceblocker/blist.php
 #
 # MalC0de malware Blacklist
 #http://malc0de.com/bl/IP_Blacklist.txt
 #
+# NoThink! HoneyPot blocklists
+#  Also see http://www.nothink.org/honeypots.php
+#http://www.nothink.org/blacklist/blacklist_telnet_day.txt
+#http://www.nothink.org/blacklist/blacklist_ssh_day.txt
+#http://www.nothink.org/blacklist/blacklist_snmp_day.txt
+#
+# abuse.ch ZeuS C&C blocklist
+#  Also see https://zeustracker.abuse.ch/index.php
+#https://zeustracker.abuse.ch/blocklist.php?download=badips
+#
+# abuse.ch Ransomware blocklist
+#  Also see https://ransomwaretracker.abuse.ch
+#https://ransomwaretracker.abuse.ch/downloads/RW_IPBL.txt
+#
+# abuse.ch Feodo C&C blocklist
+#  Also see https://feodotracker.abuse.ch
+#https://feodotracker.abuse.ch/blocklist/?download=ipblocklist
+#https://feodotracker.abuse.ch/blocklist/?download=badips
+#
+# OpenBL.org default (90-day) list, US source (Discontinued:  Do not use)
+#http://www.us.openbl.org/lists/base.txt
+#
 #-----------------------------------------------------------
-
