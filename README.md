@@ -27,6 +27,15 @@ Similar for IPv6:
 2. `set firewall ipv6-name wan-lan-6 rule 1 source group ipv6-network-group Nets6-BlackList`  
 3. `set firewall ipv6-name wan-self-6 rule 1 source group ipv6-network-group Nets6-BlackList`  
 
+To use `iprange` for optimization and reduction you will need to install the
+binary.  There is an existing iprange .deb package for both mips and mipsel that
+may be used.
+1.  If apt repositories have been configured:  `sudo apt install iprange`
+2.  If apt has not been configured:
+    1.  `cd /config/user-data`
+    2.  `curl -O http://http.us.debian.org/debian/pool/main/i/iprange/iprange_1.0.3+ds-1_mips.deb`
+    3.  `sudo dpkg --install iprange_1.0.3+ds-1_mips.deb`
+
 That should get you going with minimal effort.  However, you really should
 review `fw-BlackList-URLs.txt` and edit as appropriate.  The two scripts
 both have configuration sections that you should also review and edit as
@@ -64,8 +73,27 @@ Alternatively, the `updBlackList.sh` script may be re-run at boot-time.
 This will take longer, however, since it will recreate the list newly.
 
 
+### Using iprange
+iprange may be used to optimize lists of network addresses, particularly when
+merging multiple different lists from multiple sources.  Overlaps and consolidation
+is standard with additional ability to reduce the number of prefix lengths for runtime
+efficiency when using the created IPsets.
+
+iprange also provides for a true proper whitelist mechanism, automatically splitting
+address blocks around the whitelisted addresses followed by the above optimization
+and reduction.
+
+Unfortunately iprange only supports IPv4 currently so there would be no optimization
+for IPv6 IPsets (yet)
+
+By default, if iprange is found it will be used with nothing more than the installation
+noted above being required.
+
+
 ### More detail
 IPset documentation may be found at http://ipset.netfilter.org
+
+IPrange documentation may be found at https://github.com/firehol/iprange/wiki
 
 This work was inspired by the
 [Emerging Threats Blacklist](https://community.ubnt.com/t5/EdgeMAX/Emerging-Threats-Blacklist/td-p/645375)

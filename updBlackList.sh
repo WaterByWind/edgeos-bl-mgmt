@@ -6,25 +6,28 @@
 # Automated Blacklist management for Ubiquiti EdgeRouters
 # For use in lieu of blackhole-routing and BGP route filtering
 #
-# 07 May 2017: v 1.2
+# 19 April 2018: v1.3
+#    - Add initial support for 'iprange'
+#
+# 07 May 2017: v1.2
 #    - Add IPv6 support
 #    - Ensure /dev/fd exists (ER-X uses devtmpfs with missing template entry)
 #    - Update cURL output filenaming
 #
-# 05 Oct 2015: v 1.1.1
+# 05 October 2015: v1.1.1
 #    - Fix for additional comment (//) delineator in some blacklists
 #
-# 21 Sept 2015:  v 1.1
+# 21 September 2015:  v1.1
 #    - Move list of blacklist URLs to separate file
 #    - Check for failed retreival (curl error)
 #    - Minor updates and fixes
 #
-# 19 Sept 2015:  v 1.0
+# 19 September 2015:  v1.0
 #    - Initial release
 #
 #------------------------------------------------------------------------------
 #
-# Copyright (c) 2017 Waterside Consulting, inc.
+# Copyright (c) 2018 Waterside Consulting, inc.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -92,26 +95,23 @@ fnIPSetSave6="fw-IPSET-6.txt"
 #   0 = Completely silent
 #   1 = + errors and failures
 #   2 = + informational status
-#   3 = + cURL status output
+#   3 = + cURL, iprange status output
 #   9 = + debug output
-verbose=0
-
+verbose=2
 #
 # Use email for messages
 #   Values same as for 'verbosity' above
-#   /etc/ssmtp/ssmtp.conf must be minimally configured to be
-#     able to send email.  At minimum mailhub may need to be defined
+#   /etc/ssmtp/ssmtp.conf must be configured to be able
+#     to send email.  At minimum mailhub may need to be defined
 #     along with any potential authentication credentials.
 useMail=0
 #
 # Destination for email messages, if enabled
 mailDest="USER@MAILDOMAIN.com"
-
 #
 # Use 'logger' (syslog) for messages
 #   Values same as for 'verbosity' above
 useLogger=2
-
 #
 # Maximum number of blacklist elements
 #   The absolute maximum count for blacklisted elements (networks + hosts)
@@ -121,7 +121,25 @@ useLogger=2
 #     blocked networks + hosts is greater than this value then no
 #     update will be made to the firewall group.
 fwSetMaxElem=131071
-
+#
+# Location for 'iprange' exectuable, optional.
+#   See https://github.com/firehol/iprange/wiki
+#   If this is defined, the target exists, and the target is executable
+#   it will be used for merging/optimizing and potentially reducing the
+#   number of prefix lengths.
+#   Note that currently iprange only supports IPv4
+cmdBaseIPRange='/usr/bin/iprange'
+#
+# When using 'iprange' for reduction in prefix length count, two
+#   parameters control how large the resulting ipset may become.  The
+#   larger of these two values will determine the max size.
+#
+# The maximum growth in size as percentage.
+ipRangeRedFactor=0
+#
+# The maximum set size as absolute count
+ipRangeRedEntries=${fwSetMaxElem}
+#
 #
 #
 #-----------------------------------------------------------
@@ -178,6 +196,8 @@ cmdBaseLN="sudo /bin/ln"
 fwGroupTmp4="bl_tmp_4"
 fwGroupTmp6="bl_tmp_6"
 blUrl=()
+useIPRange=0
+flgOpt=0
 : ${TMPDIR:="/tmp"}
 #
 #-----------------------------------------------------------
@@ -313,6 +333,15 @@ startup()
         errMsg "Missing MTA '${cmdBaseSSMTP}'.  Will not send email"
     fi
 
+    if [[ -n "${cmdBaseIPRange}" ]]; then
+        if [[ -x ${cmdBaseIPRange} ]]; then
+            useIPRange=1
+        else
+            useIPRange=0
+            errMsg "Missing executable '${cmdBaseIPRange}'.  Will not optimize IPsets"
+        fi
+    fi
+
     logMsg "Starting at ${strTime}"
 
     # Ensure /dev/fd exists
@@ -329,6 +358,10 @@ startup()
 
     if [ ${useMail} -le 1 -a ${useLogger} -le 1 -a ${verbose} -le 1 ]; then
       cmdBaseIPSet="${cmdBaseIPSet} -q"
+    fi
+
+    if [[ ${verbose} -ge 3 ]]; then
+        cmdBaseIPRange="${cmdBaseIPRange} -v"
     fi
 
     if [[ ${verbose} -lt 3 ]]; then
@@ -438,7 +471,7 @@ doProcess4()
     # Remove comments and blank lines
     # Remove trailing identifiers
     # Remove IPv6 addresses/networks
-    debugMsg "Processing block file list: '${flBlockList}'"
+    logMsg "Processing block file list (IPv4): '${flBlockList}'"
     cat ${flBlockList} | \
         sed -e '/^[;#]/d' \
             -e '/ERROR/d' \
@@ -458,11 +491,33 @@ doProcess4()
         elCtUnq4=$(wc -l ${fnTemp2} | cut -d\  -f1)
     fi
 
-    # If local whitelist exists, use to filter blacklist
-    if [[ -s ${fpLocWhiteList} ]]; then
-        comm -23 ${fnTemp2} <(sort ${fpLocWhiteList}) > ${fnTemp3}
-    else
-        mv ${fnTemp2} ${fnTemp3}
+    flgOpt=0
+    if [[ ${useIPRange} -gt 0 ]]; then
+        debugMsg "Using '${cmdBaseIPRange}' for optimizing"
+        cmdFlg=""
+        cmdFlg2=""
+        [[ -n "${ipRangeRedFactor}" ]] && cmdFlg="--reduce-factor ${ipRangeRedFactor}"
+        [[ -n "${ipRangeRedEntries}" ]] && cmdFlg="${cmdFlg} --reduce-entries ${ipRangeRedEntries}"
+        # If local whitelist exists, exclude those IPs from blacklist
+        [[ -s "${fpLocWhiteList}" ]] && cmdFlg2="--exclude-next ${fpLocWhiteList}"
+        ${cmdBaseIPRange} ${fnTemp2} ${cmdFlg2} ${cmdFlg} > ${fnTemp3}
+        rc=$?
+        if [[ ${rc} -eq 0 ]]; then
+            flgOpt=1
+        else
+            errMsg "Failure executing '${cmdBaseIPRange}', rc=${rc}"
+            errMsg "Skipping optimization!"
+        fi
+    fi
+
+    # Only do this if iprange not used or failed
+    if [[ ${flgOpt} -eq 0 ]]; then
+        # If local whitelist exists, use to filter blacklist
+        if [[ -s ${fpLocWhiteList} ]]; then
+            comm -23 ${fnTemp2} <(sort ${fpLocWhiteList}) > ${fnTemp3}
+        else
+            mv ${fnTemp2} ${fnTemp3}
+        fi
     fi
 
     # Save count, final (always need this for maxelem)
@@ -485,7 +540,7 @@ doProcess6()
     # Remove comments and blank lines
     # Remove trailing identifiers
     # Remove IPv4 addresses/networks
-    debugMsg "Processing block file list: '${flBlockList}'"
+    logMsg "Processing block file list (IPv6): '${flBlockList}'"
     cat ${flBlockList} | \
         tr '[:upper:]' '[:lower:]' | \
         sed -e '/^[;#]/d' \
@@ -550,7 +605,7 @@ doProcess6()
 doUpdate4()
 {
     debugMsg "doUpdate4()"
-
+    logMsg "Applying IPset (IPv4)"
     # Ensure we don't have a list that is too large
     if [[ ${elCtFnl4} -gt ${fwSetMaxElem} ]]; then
         die 15 "IPv4 Blocklist too large (count=${elCtFnl4}, maxelem=${fwSetMaxElem})"
@@ -572,6 +627,7 @@ doUpdate4()
 doUpdate6()
 {
     debugMsg "doUpdate6()"
+    logMsg "Applying IPset (IPv6)"
 
     # Ensure we don't have a list that is too large
     if [[ ${elCtFnl6} -gt ${fwSetMaxElem} ]]; then
