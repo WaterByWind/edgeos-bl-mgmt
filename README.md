@@ -32,7 +32,8 @@ binary.  There is an existing iprange .deb package for both mips and mipsel that
 may be used.
 1.  If apt repositories have been configured:  `sudo apt install iprange`
 2.  If apt has not been configured:
-    1.  `cd /config/user-data`
+    1.  `mkdir -p /config/data/firstboot/install-packages`
+    2.  `cd /config/data/firstboot/install-packages`
     2.  `curl -O http://http.us.debian.org/debian/pool/main/i/iprange/iprange_1.0.3+ds-1_mips.deb`
     3.  `sudo dpkg --install iprange_1.0.3+ds-1_mips.deb`
 
@@ -87,7 +88,11 @@ Unfortunately iprange only supports IPv4 currently so there would be no optimiza
 for IPv6 IPsets (yet)
 
 By default, if iprange is found it will be used with nothing more than the installation
-noted above being required.
+noted above being required.  Note that if 'apt' is used to install iprange you will
+need to re-install after each firmware update, though 'apt' sources would need to be
+reconfigured at the same time anyway.  If you download the .deb and place it in the directory
+referenced above, however, this will be re-installed automatically after each firmware
+upgrade so that may actually be a preferred option.
 
 
 ### More detail
