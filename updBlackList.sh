@@ -500,7 +500,7 @@ doProcess4()
         [[ -n "${ipRangeRedEntries}" ]] && cmdFlg="${cmdFlg} --reduce-entries ${ipRangeRedEntries}"
         # If local whitelist exists, exclude those IPs from blacklist
         [[ -s "${fpLocWhiteList}" ]] && cmdFlg2="--exclude-next ${fpLocWhiteList}"
-        ${cmdBaseIPRange} ${fnTemp2} ${cmdFlg2} ${cmdFlg} > ${fnTemp3}
+        ${cmdBaseIPRange} ${fnTemp2} ${cmdFlg} ${cmdFlg2} > ${fnTemp3}
         rc=$?
         if [[ ${rc} -eq 0 ]]; then
             flgOpt=1
