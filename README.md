@@ -19,13 +19,25 @@ You will also need to create a firewall rule to deny inbound source addresses
 that match this network-group `Nets4-BlackList`.  An example using
 a zone-based firewall might look like:  
 1. `set firewall name wan-dmz-4 rule 1 source group network-group Nets4-BlackList`  
-2. `set firewall name wan-lan-4 rule 1 source group network-group Nets4-BlackList`  
-3. `set firewall name wan-self-4 rule 1 source group network-group Nets4-BlackList`  
+2. `set firewall name wan-dmz-4 rule 1 action drop`
+3. `set firewall name wan-dmz-4 rule 1 protocol all`
+4. `set firewall name wan-lan-4 rule 1 source group network-group Nets4-BlackList`  
+5. `set firewall name wan-lan-4 rule 1 action drop`  
+6. `set firewall name wan-lan-4 rule 1 protocol all`  
+7. `set firewall name wan-self-4 rule 1 source group network-group Nets4-BlackList`  
+8. `set firewall name wan-self-4 rule 1 action drop`  
+9. `set firewall name wan-self-4 rule 1 protocol all`  
 
 Similar for IPv6:
 1. `set firewall ipv6-name wan-dmz-6 rule 1 source group ipv6-network-group Nets6-BlackList`  
-2. `set firewall ipv6-name wan-lan-6 rule 1 source group ipv6-network-group Nets6-BlackList`  
-3. `set firewall ipv6-name wan-self-6 rule 1 source group ipv6-network-group Nets6-BlackList`  
+2. `set firewall ipv6-name wan-dmz-6 rule 1 action drop`  
+3. `set firewall ipv6-name wan-dmz-6 rule 1 protocol all`  
+4. `set firewall ipv6-name wan-lan-6 rule 1 source group ipv6-network-group Nets6-BlackList`  
+5. `set firewall ipv6-name wan-lan-6 rule 1 action drop`  
+6. `set firewall ipv6-name wan-lan-6 rule 1 protocol all`  
+7. `set firewall ipv6-name wan-self-6 rule 1 source group ipv6-network-group Nets6-BlackList`  
+8. `set firewall ipv6-name wan-self-6 rule 1 action drop`  
+9. `set firewall ipv6-name wan-self-6 rule 1 protocol all`  
 
 To use `iprange` for optimization and reduction you will need to install the
 binary.  There is an existing iprange .deb package for both mips and mipsel that
