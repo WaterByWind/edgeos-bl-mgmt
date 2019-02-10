@@ -110,14 +110,13 @@ https://iplists.firehol.org/files/firehol_level1.netset
 #  Also see https://ransomwaretracker.abuse.ch
 #https://ransomwaretracker.abuse.ch/downloads/RW_IPBL.txt
 #
-# abuse.ch Feodo C&C blocklist
+# abuse.ch Feodo Tracker Botnet C2 IP Blocklist
 #  Also see https://feodotracker.abuse.ch
-#https://feodotracker.abuse.ch/blocklist/?download=ipblocklist
-#https://feodotracker.abuse.ch/blocklist/?download=badips
+#https://feodotracker.abuse.ch/downloads/ipblocklist.txt
 #
 # IP-Deny
 #  Also see http://www.ipdeny.com/ipblocks/
-#  List as many as needed, substituting the proper 2-letter country code 
+#  List as many as needed, substituting the proper 2-letter country code
 #    for CC below
 #http://www.ipdeny.com/ipblocks/data/aggregated/CC-aggregated.zone
 #http://www.ipdeny.com/ipv6/ipaddresses/aggregated/CC-aggregated.zone

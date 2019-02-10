@@ -39,15 +39,19 @@ Similar for IPv6:
 8. `set firewall ipv6-name wan-self-6 rule 1 action drop`  
 9. `set firewall ipv6-name wan-self-6 rule 1 protocol all`  
 
-To use `iprange` for optimization and reduction you will need to install the
+To use the optional `iprange` for optimization and reduction you will need to install the
 binary.  There is an existing iprange .deb package for both mips and mipsel that
 may be used.
 1.  If apt repositories have been configured:  `sudo apt install iprange`
 2.  If apt has not been configured:
     1.  `mkdir -p /config/data/firstboot/install-packages`
     2.  `cd /config/data/firstboot/install-packages`
-    2.  `curl -O http://http.us.debian.org/debian/pool/main/i/iprange/iprange_1.0.3+ds-1_mips.deb`
-    3.  `sudo dpkg --install iprange_1.0.3+ds-1_mips.deb`
+    3.  For Cavium-based platforms (MIPS):
+        1.  `curl -O http://http.us.debian.org/debian/pool/main/i/iprange/iprange_1.0.3+ds-1_mips.deb`
+        2.  `sudo dpkg --install iprange_1.0.3+ds-1_mips.deb`
+    4.  For MTK-based platforms (MIPSEL; including ER-X, ER-X-SFP, EP-R6):
+        1.  `curl -O http://http.us.debian.org/debian/pool/main/i/iprange/iprange_1.0.3+ds-1_mipsel.deb`
+        2.  `sudo dpkg --install iprange_1.0.3+ds-1_mipsel.deb`
 
 That should get you going with minimal effort.  However, you really should
 review `fw-BlackList-URLs.txt` and edit as appropriate.  The two scripts

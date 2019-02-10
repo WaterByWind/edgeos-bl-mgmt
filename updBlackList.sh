@@ -6,6 +6,9 @@
 # Automated Blacklist management for Ubiquiti EdgeRouters
 # For use in lieu of blackhole-routing and BGP route filtering
 #
+# 10 February 2019: v1.4
+#    - Update 'sed' patterns to match modern usage requirements
+#
 # 19 April 2018: v1.3
 #    - Add initial support for 'iprange'
 #
@@ -27,7 +30,7 @@
 #
 #------------------------------------------------------------------------------
 #
-# Copyright (c) 2018 Waterside Consulting, inc.
+# Copyright (c) 2015 - 2019 Waterside Consulting, inc.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -475,7 +478,7 @@ doProcess4()
     cat ${flBlockList} | \
         sed -e '/^[;#]/d' \
             -e '/ERROR/d' \
-            -e '/[:\::]/d' \
+            -e '/[\:\::]/d' \
             -e 's/ .*//g' \
             -e 's#//.*##g' \
             -e 's/[^0-9,.,/]*//g' \
