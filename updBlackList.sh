@@ -3,8 +3,38 @@
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 #
 #------------------------------------------------------------------------------
+#
+# Copyright (c) 2015 - 2019 Waterside Consulting, inc.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+#
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
 # Automated Blacklist management for Ubiquiti EdgeRouters
-# For use in lieu of blackhole-routing and BGP route filtering
+# For use in lieu or supplement of blackhole-routing and BGP route filtering
+#
+# 18 April 2019: v1.5
+#    - Update 'sed' patterns to match new usage requirements
+#    - Avoid potential cache file naming collisions
+#    - Other cache filename tweaks
+#    - Cache source URLs used
 #
 # 10 February 2019: v1.4
 #    - Update 'sed' patterns to match modern usage requirements
@@ -29,29 +59,6 @@
 #    - Initial release
 #
 #------------------------------------------------------------------------------
-#
-# Copyright (c) 2015 - 2019 Waterside Consulting, inc.
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-#
-#------------------------------------------------------------------------------
-#
 #
 # Inspired by UBNT Community forums post:
 #   https://community.ubnt.com/t5/EdgeMAX/Emerging-Threats-Blacklist/td-p/645375
@@ -185,6 +192,7 @@ ipRangeRedEntries=${fwSetMaxElem}
 ##
 ## Definitions
 ##
+fnUsedSourceList="source-urls.txt"
 fpLocBlackList="${dirUserData}/${fnLocalBlackList}"
 fpLocWhiteList="${dirUserData}/${fnLocalWhiteList}"
 fpUrlList="${dirUserData}/${fnUrlList}"
@@ -432,11 +440,16 @@ doFetch()
     # and there was nothing saved.  If there is content then we
     # continue on.
     #
+    fpUsedSourceList="${TMPDIR}/${myName}-${fnUsedSourceList}"
+    > ${fpUsedSourceList}
     debugMsg "Starting block file list: '${flBlockList}'"
     for (( i=0; i<${elCtBL}; i++ )); do
         fnUrl="${blUrl[$i]}"
         if [[ -n "${fnUrl}" ]]; then
-            fnBase="$(echo ${fnUrl} | awk -F/ '{print $3}')_$(basename ${fnUrl})"
+            printf '[%2.2d] %s\n' $i "${fnUrl}" >> ${fpUsedSourceList}
+            fnBase="$(printf '%2.2d' $i)_$(echo ${fnUrl} | \
+                awk -F/ '{print $3}')_$(basename ${fnUrl} | \
+                sed -e 's/?/_/' -e 's/api_key=[^&]*&\?//')"
             cmdFlg=""
             if [[ -s ${fnBase} ]]; then
                 cmdFlg="-z ${fnBase}"
@@ -472,16 +485,19 @@ doProcess4()
 {
     debugMsg "doProcess4()"
     # Remove comments and blank lines
+    # Remove 'hosts.deny' prefixes
     # Remove trailing identifiers
     # Remove IPv6 addresses/networks
     logMsg "Processing block file list (IPv4): '${flBlockList}'"
     cat ${flBlockList} | \
         sed -e '/^[;#]/d' \
             -e '/ERROR/d' \
+            -e 's/^[[:space:]]*ALL[[:space:]]*:[[:space:]]*//' \
+            -e 's#^\(\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\(/[0-9]\{1,2\}\)\?\).*$#\1#' \
             -e '/[\:\::]/d' \
             -e 's/ .*//g' \
             -e 's#//.*##g' \
-            -e 's/[^0-9,.,/]*//g' \
+            -e 's/[^0-9./]*//g' \
             -e '/^$/d' > ${fnTemp1}
     # Sort and remove duplicates
     sort -u ${fnTemp1} -o ${fnTemp2}
