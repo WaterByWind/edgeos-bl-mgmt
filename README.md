@@ -1,7 +1,7 @@
 ## Ubiquiti Networks EdgeRouter Firewall BlockList Management
 -------------------------------------------------------------
 Automated management of network and host address blocklists, for use
-in EdgeRouter firewall rules.
+in EdgeRouter (EdgeOS) firewall rules.
 
 
 ### Quick Start
@@ -121,9 +121,11 @@ This work was inspired by the
 discussion thread in the Ubiquiti Networks community forums.
 
 This utility is one option among several for ingress filtering, and is primarily
-intended to be used in lieu of blackhole-routing and BGP route filtering.
+intended to be used in lieu of, or perhaps in supplement of, (egress-based)
+blackhole-routing and BGP route filtering.
 
-Note that arbitrary lists should not be arbitrarily added or enabled for blocking.
+#### Note
+Arbitrary lists should not be summarily added or enabled for blocking.
 Review of each list should be performed combined with a period of careful monitoring after
-enabling to ensure legitimate traffic is not blocked.  Some public "blocklists"
+enabling to ensure legitimate traffic is not affected.  Some public "blocklists"
 are known to be rather aggressive and add addresses/netblocks too easily.
