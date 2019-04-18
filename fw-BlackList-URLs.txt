@@ -1,14 +1,16 @@
 #
-#
 #-----------------------------------------------------------
 #
 # URL list of blocklist files
-#   One URL per line
-#   Blank lines OK
-#   Hash (#) begins comment
+#   - One URL per line
+#   - Blank lines OK
+#   - Hash (#) begins comment
 #
 # For use with updBlackList.sh
-# Place this file in /config/user-data
+#   - Review and edit as desired
+#   - Place this file in /config/user-data
+#
+# Last update: 2019 April 18
 #
 #-----------------------------------------------------------
 #
@@ -65,9 +67,6 @@ https://iplists.firehol.org/files/firehol_level1.netset
 #  Also see http://iplists.firehol.org/?ipset=firehol_anonymous
 #https://iplists.firehol.org/files/firehol_anonymous.netset
 #
-# PGL.YOYO AdServer list (Broken:  Do not use)
-#http://pgl.yoyo.org/as/iplist.php?format=&showintro=0
-#
 # OKEAH Korea IP Blocks
 #https://www.okean.com/sinokoreacidr.txt
 #
@@ -80,10 +79,6 @@ https://iplists.firehol.org/files/firehol_level1.netset
 # StopForumSpam
 #  Also see https://www.stopforumspam.com/downloads
 #https://www.stopforumspam.com/downloads/toxic_ip_cidr.txt
-#
-# AutoShun
-#  Requires registration:  https://www.autoshun.org/register/
-#https://www.autoshun.org/files/shunlist.csv
 #
 # CI Army List
 #  Also see http://cinsscore.com/#list
@@ -120,6 +115,51 @@ https://iplists.firehol.org/files/firehol_level1.netset
 #    for CC below
 #http://www.ipdeny.com/ipblocks/data/aggregated/CC-aggregated.zone
 #http://www.ipdeny.com/ipv6/ipaddresses/aggregated/CC-aggregated.zone
+#
+# Talos Reputation Center IP Blacklist
+#   Also see https://www.talosintelligence.com/reputation
+#https://www.talosintelligence.com/documents/ip-blacklist
+#
+# GreenSnow.co Blacklist IPs
+#    Also see http://greensnow.co
+#https://blocklist.greensnow.co/greensnow.txt
+#
+# alternativesurfers's supplemental blacklists
+#   Also see https://github.com/alternativesurfer/blacklists
+#https://raw.githubusercontent.com/alternativesurfer/blacklists/master/iplist.txt
+#
+# Binary Defense Systems Artillery Threat Intelligence Feed and Banlist Feed
+#   Also see https://www.binarydefense.com
+#http://www.binarydefense.com/banlist.txt
+#
+# BadIPs community-based abuse tracker
+#   Also see https://www.badips.com/
+#   There are many options - please see above and modify as needed before enabling
+#https://www.badips.com/get/list/any/2?age=30d
+#
+# OSINT Master list feed of all current C&C IPs using DGAs
+#   Also see http://osint.bambenekconsulting.com/feeds/
+#   Also see http://osint.bambenekconsulting.com/manual/c2-ipmasterlist.txt
+#http://osint.bambenekconsulting.com/feeds/c2-ipmasterlist-high.txt
+#
+# Charles B. Haley Network Attacks blacklists
+#   Also see http://charles.the-haleys.org/
+#http://charles.the-haleys.org/ssh_dico_attack_with_timestamps.php?days=7
+#http://charles.the-haleys.org/wp_attack_with_timestamps.php?days=7
+#http://charles.the-haleys.org/smtp_dico_attack_with_timestamps.php?days=7
+#
+#-----------------------------------------------------------
+# Special entries
+#
+# AutoShun
+#  Requires registration:  https://www.autoshun.org/register/
+#https://www.autoshun.org/files/shunlist.csv
+#
+#-----------------------------------------------------------
+# Archived entries.  These should not be used.
+#
+# PGL.YOYO AdServer list (Broken:  Do not use)
+#http://pgl.yoyo.org/as/iplist.php?format=&showintro=0
 #
 # OpenBL.org default (90-day) list, US source (Discontinued:  Do not use)
 #http://www.us.openbl.org/lists/base.txt
