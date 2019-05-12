@@ -10,7 +10,7 @@
 #   - Review and edit as desired
 #   - Place this file in /config/user-data
 #
-# Last update: 2019 April 18
+# Last update: 2019 May 11
 #
 #-----------------------------------------------------------
 #
@@ -130,7 +130,7 @@ https://iplists.firehol.org/files/firehol_level1.netset
 #
 # Binary Defense Systems Artillery Threat Intelligence Feed and Banlist Feed
 #   Also see https://www.binarydefense.com
-#http://www.binarydefense.com/banlist.txt
+#https://www.binarydefense.com/banlist.txt
 #
 # BadIPs community-based abuse tracker
 #   Also see https://www.badips.com/
