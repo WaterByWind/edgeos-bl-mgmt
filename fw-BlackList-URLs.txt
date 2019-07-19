@@ -10,7 +10,7 @@
 #   - Review and edit as desired
 #   - Place this file in /config/user-data
 #
-# Last update: 2019 May 11
+# Last update: 2019 July 18
 #
 #-----------------------------------------------------------
 #
@@ -97,10 +97,6 @@ https://iplists.firehol.org/files/firehol_level1.netset
 #http://www.nothink.org/blacklist/blacklist_ssh_day.txt
 #http://www.nothink.org/blacklist/blacklist_snmp_day.txt
 #
-# abuse.ch ZeuS C&C blocklist
-#  Also see https://zeustracker.abuse.ch/index.php
-#https://zeustracker.abuse.ch/blocklist.php?download=badips
-#
 # abuse.ch Ransomware blocklist
 #  Also see https://ransomwaretracker.abuse.ch
 #https://ransomwaretracker.abuse.ch/downloads/RW_IPBL.txt
@@ -163,5 +159,8 @@ https://iplists.firehol.org/files/firehol_level1.netset
 #
 # OpenBL.org default (90-day) list, US source (Discontinued:  Do not use)
 #http://www.us.openbl.org/lists/base.txt
+#
+# abuse.ch ZeuS C&C blocklist (Discontinued as of 8 July 2019:  Do not use)
+#https://zeustracker.abuse.ch/blocklist.php?download=badips
 #
 #-----------------------------------------------------------
