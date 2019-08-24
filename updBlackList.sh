@@ -30,6 +30,9 @@
 # Automated Blacklist management for Ubiquiti EdgeRouters
 # For use in lieu or supplement of blackhole-routing and BGP route filtering
 #
+# 24 August 2019: v1.6
+#    - Update 'sed' patterns to match new usage requirements
+#
 # 18 April 2019: v1.5
 #    - Update 'sed' patterns to match new usage requirements
 #    - Avoid potential cache file naming collisions
