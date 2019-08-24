@@ -491,6 +491,7 @@ doProcess4()
     logMsg "Processing block file list (IPv4): '${flBlockList}'"
     cat ${flBlockList} | \
         sed -e '/^[;#]/d' \
+            -e '/^[^0-9]/d' \
             -e '/ERROR/d' \
             -e 's/^[[:space:]]*ALL[[:space:]]*:[[:space:]]*//' \
             -e 's#^\(\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\(/[0-9]\{1,2\}\)\?\).*$#\1#' \
@@ -563,6 +564,7 @@ doProcess6()
     cat ${flBlockList} | \
         tr '[:upper:]' '[:lower:]' | \
         sed -e '/^[;#]/d' \
+            -e '/^[^:0-9a-f]/d' \
             -e '/error/d' \
             -e '/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}/d' \
             -e 's/ .*//g' \
