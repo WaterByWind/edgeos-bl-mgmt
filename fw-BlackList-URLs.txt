@@ -128,11 +128,6 @@ https://iplists.firehol.org/files/firehol_level1.netset
 #   Also see https://www.binarydefense.com
 #https://www.binarydefense.com/banlist.txt
 #
-# BadIPs community-based abuse tracker
-#   Also see https://www.badips.com/
-#   There are many options - please see above and modify as needed before enabling
-#https://www.badips.com/get/list/any/2?age=30d
-#
 # OSINT Master list feed of all current C&C IPs using DGAs
 #   Also see http://osint.bambenekconsulting.com/feeds/
 #   Also see http://osint.bambenekconsulting.com/manual/c2-ipmasterlist.txt
@@ -144,12 +139,13 @@ https://iplists.firehol.org/files/firehol_level1.netset
 #http://charles.the-haleys.org/wp_attack_with_timestamps.php?days=7
 #http://charles.the-haleys.org/smtp_dico_attack_with_timestamps.php?days=7
 #
+# NUBI (quasi-replacement for badips.com)
+#  Also see https://www.nubi-network.com
+#https://www.nubi-network.com/list.txt
+#
 #-----------------------------------------------------------
 # Special entries
 #
-# AutoShun
-#  Requires registration:  https://www.autoshun.org/register/
-#https://www.autoshun.org/files/shunlist.csv
 #
 #-----------------------------------------------------------
 # Archived entries.  These should not be used.
@@ -162,5 +158,14 @@ https://iplists.firehol.org/files/firehol_level1.netset
 #
 # abuse.ch ZeuS C&C blocklist (Discontinued as of 8 July 2019:  Do not use)
 #https://zeustracker.abuse.ch/blocklist.php?download=badips
+#
+# AutoShun (Discontinued)
+#  Requires registration:  https://www.autoshun.org/register/
+#https://www.autoshun.org/files/shunlist.csv
+#
+# BadIPs community-based abuse tracker (Appears down)
+#   Also see https://www.badips.com/
+#   There are many options - please see above and modify as needed before enabling
+#https://www.badips.com/get/list/any/2?age=30d
 #
 #-----------------------------------------------------------
